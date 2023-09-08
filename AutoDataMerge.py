@@ -9,23 +9,23 @@ def extract_data_from_folder(folder):
     for file in spreadsheet_files:
         spreadsheet = pd.read_excel(file)
         
-        if 'Student ID:' in spreadsheet.columns and 'Name:' in spreadsheet.columns:
-            columns_to_extract = ['Student ID:', 'Name:', 'Course:', 'Email:']
+        if 'RA:' in spreadsheet.columns and 'Name:' in spreadsheet.columns:
+            columns_to_extract = ['RA:', 'Name:', 'Course:', 'Email:']
             present_columns = spreadsheet.columns.tolist()
             
             selected_columns = [column for column in columns_to_extract if column in present_columns]
             
             data = spreadsheet[selected_columns].copy()
-            data.dropna(subset=['Student ID:', 'Name:'], inplace=True)
+            data.dropna(subset=['RA:', 'Name:'], inplace=True)
             
             for _, row in data.iterrows():
-                student_id = str(row['Student ID:']).split('.')[0]
+                student_id = str(row['RA:']).split('.')[0]
                 student_id = student_id.upper().replace('A', '', 1)
                 name = row['Name:']
                 course = row.get('Course:', '')
                 
                 if student_id not in student_data:
-                    student_data[student_id] = {'Student ID:': student_id, 'Name:': name, 'Course:': course, 'Days:': 1}
+                    student_data[student_id] = {'RA:': student_id, 'Name:': name, 'Course:': course, 'Days:': 1}
                 else:
                     student_data[student_id]['Days:'] += 1
 
